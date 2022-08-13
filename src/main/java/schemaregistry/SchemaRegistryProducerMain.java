@@ -23,9 +23,9 @@ public class SchemaRegistryProducerMain {
 
         KafkaProducer<String, Person> producer = new KafkaProducer<>(props);
         Person kenny = new Person(125745, "Kenny", "Armstrong", "kenny@linuxacademy.com", "@kenny");
-        producer.send(new ProducerRecord<>("employees", kenny.getId().toString(), kenny));
+        producer.send(new ProducerRecord<>("employees", Integer.toString(kenny.getId()), kenny));
         Person terry = new Person(943256, "Terry", "Cox", "terry@linuxacademy.com", "@terry");
-        producer.send(new ProducerRecord<>("employees", terry.getId().toString(), terry));
+        producer.send(new ProducerRecord<>("employees", Integer.toString(terry.getId()), terry));
         producer.close();
     }
 }
