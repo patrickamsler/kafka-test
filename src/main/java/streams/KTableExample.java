@@ -20,6 +20,7 @@ public class KTableExample {
     props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+    props.put(StreamsConfig.STATE_DIR_CONFIG, "/tmp/kafka-streams");
 
     startKafkaStreams(props);
   }
@@ -28,7 +29,8 @@ public class KTableExample {
     StreamsBuilder builder = new StreamsBuilder();
 
     KeyValueBytesStoreSupplier storeSupplier = Stores.inMemoryKeyValueStore("ktable-store");
-    Materialized<String, String, org.apache.kafka.streams.state.KeyValueStore<org.apache.kafka.common.utils.Bytes, byte[]>> materialized =
+//    KeyValueBytesStoreSupplier storeSupplier = Stores.persistentKeyValueStore("ktable-store");
+    Materialized<String, String, KeyValueStore<org.apache.kafka.common.utils.Bytes, byte[]>> materialized =
         Materialized.<String, String>as(storeSupplier)
         .withKeySerde(Serdes.String())
         .withValueSerde(Serdes.String());
